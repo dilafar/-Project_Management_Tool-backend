@@ -47,11 +47,21 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
+    status: {
+        type: String,
+        default: "pending",
+      },
     createdAt:{
         type: Date,
         default: new Date()
     }
-})
+}
+,
+{
+    timestamps: true,
+}
+
+)
 
 const model = mongoose.model("User",userSchema);
 module.exports = model;
