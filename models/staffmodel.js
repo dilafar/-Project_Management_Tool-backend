@@ -67,6 +67,10 @@ const staffSchema = new Schema({
         type: String,
         default: "pending",
       },
+      panel: {
+        type : String,
+        default: "Assign a Panel",
+    },
     createdAt:{
         type: Date,
         default: new Date()

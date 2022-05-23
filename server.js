@@ -16,7 +16,9 @@ app.use(bodyparser.urlencoded({limit:"400mb",extended: true}));
 const url = process.env.MONGO_URL;
 
 const userroutes = require("./routes/user");
-app.use("/user",userroutes);
+const panelDataroutes = require("./routes/panelData");
+app.use("/user", userroutes);
+app.use("/panel", panelDataroutes);
 
 mongoose.connect(url ,  {
     useNewUrlParser: true,

@@ -2,6 +2,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 let model = require("../models/usermodel");
 let staffmodel = require("../models/staffmodel");
+const {transporter} = require("../api/userMail");
+
+let mailOptions = {
+    from: 'farmertest98@gmail.com',
+    to: '',
+    subject: '',
+    text: ''
+};
 
 const signin = async(req,res)=>{
     const {email , password} = req.body;
@@ -164,17 +172,17 @@ const getAllUsers = async(req , res) =>{
             res.status(404).json({message : err.message});
     }
 }*/
-/*
+
 const updateStaffUser = async(req , res) =>{
     const userid = req.params.id;
-    const {isFarmer} = req.body;
+    const {status} = req.body;
     try{
-        const updatedUser = await User.findByIdAndUpdate(userid , {isFarmer},{new: true});
+        const updatedUser = await staffmodel.findByIdAndUpdate(userid , {status},{new: true});
 
-        if(updatedUser.isFarmer === 'Rejected'){
+        if(updatedUser.status === 'Rejected'){
             mailOptions.to = updatedUser.email;
             mailOptions.subject = 'Youre Request Rejected';
-            mailOptions.text = 'you cannot upload youre products in this website';
+            mailOptions.text = 'you cannot Access Staff related Pages';
             transporter.sendMail(mailOptions , (error , info)=>{
                 if(error){
                     console.log(error);
@@ -185,10 +193,10 @@ const updateStaffUser = async(req , res) =>{
 
         }
 
-        if(updatedUser.isFarmer === 'Approved'){
+        if(updatedUser.status === 'Approved'){
             mailOptions.to = updatedUser.email;
             mailOptions.subject = 'Youre Request Approved';
-            mailOptions.text = 'you can upload youre products in this website';
+            mailOptions.text = 'you can Access Staff related Pages';
             transporter.sendMail(mailOptions , (error , info)=>{
                 if(error){
                     console.log(error);
@@ -206,7 +214,50 @@ const updateStaffUser = async(req , res) =>{
             res.status(404).json({message : err.message});
     }
 }
-*/
+
+const updateUser = async(req , res) =>{
+    const userid = req.params.id;
+    const {status} = req.body;
+    try{
+        const updatedUser = await model.findByIdAndUpdate(userid , {status},{new: true});
+
+        if(updatedUser.status === 'Rejected'){
+            mailOptions.to = updatedUser.email;
+            mailOptions.subject = 'Youre Request Rejected';
+            mailOptions.text = 'you cannot Access Student related Pages';
+            transporter.sendMail(mailOptions , (error , info)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log('Email sent: '+ info.response);
+                }
+            });
+
+        }
+
+        if(updatedUser.status === 'Approved'){
+            mailOptions.to = updatedUser.email;
+            mailOptions.subject = 'Youre Request Approved';
+            mailOptions.text = 'you can Access Student related Pages';
+            transporter.sendMail(mailOptions , (error , info)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log('Email sent: '+ info.response);
+                }
+            });
+        }
+
+        
+
+
+        res.status(200).json(updatedUser);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+
 const deleteStaffUser = async(req,res)=>{
     const id = req.params.id;
     try{
@@ -228,4 +279,4 @@ const deleteUser = async(req,res)=>{
 
 
 
-module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser};
+module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser, updateStaffUser , updateUser};
