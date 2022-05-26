@@ -153,7 +153,7 @@ const getAllUser = async(req,res)=>{
     
    
 };
-/*
+
 const getAllStaffUsers = async(req , res) =>{
     try{
             const users = await staffmodel.find();
@@ -163,6 +163,7 @@ const getAllStaffUsers = async(req , res) =>{
             res.status(404).json({message : err.message});
     }
 }
+/*
 const getAllUsers = async(req , res) =>{
     try{
             const users = await model.find();
@@ -279,4 +280,30 @@ const deleteUser = async(req,res)=>{
 
 
 
-module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser, updateStaffUser , updateUser};
+const updatepanel = async(req , res) =>{
+    const userid = req.params.id;
+    const {panel} = req.body;
+    try{
+        const updatedUser = await staffmodel.findByIdAndUpdate(userid , {panel},{new: true});
+        res.status(200).json(updatedUser);
+
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+const getStaffById = async (req, res) => { 
+    const { id } = req.params;
+
+    try {
+        const staff = await staffmodel.findById(id);
+        
+        res.status(200).json(staff);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+
+
+module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser, updateStaffUser , updateUser , getAllStaffUsers,updatepanel,getStaffById};

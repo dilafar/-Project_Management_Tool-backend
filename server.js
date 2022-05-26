@@ -17,8 +17,13 @@ const url = process.env.MONGO_URL;
 
 const userroutes = require("./routes/user");
 const panelDataroutes = require("./routes/panelData");
+const requestroutes = require("./routes/request");
+const responseroutes = require("./routes/response");
+
 app.use("/user", userroutes);
 app.use("/panel", panelDataroutes);
+app.use("/request", requestroutes);
+app.use("/response", responseroutes);
 
 mongoose.connect(url ,  {
     useNewUrlParser: true,

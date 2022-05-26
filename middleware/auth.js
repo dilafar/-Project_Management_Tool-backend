@@ -7,7 +7,8 @@ const auth = async(req , res , next)=>{
             let decodeData;
             if(token){
                 decodeData = jwt.verify(token , 'test');
-                req.userId = decodeData?.id;
+                req.userId = decodeData?.email;
+                req.Id = decodeData?.id;
             }
 
             next();
@@ -17,4 +18,4 @@ const auth = async(req , res , next)=>{
         }
 }
 
-export default auth;
+module.exports = auth;
