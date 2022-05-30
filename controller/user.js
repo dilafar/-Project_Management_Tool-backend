@@ -304,6 +304,29 @@ const getStaffById = async (req, res) => {
     }
 }
 
+const getStudentById = async (req, res) => { 
+    const { id } = req.params;
+
+    try {
+        const student = await model.findById(id);
+        
+        res.status(200).json(student);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+const updateStudent = async(req , res) =>{
+    const userid = req.params.id;
+    const { firstname , lastname , gender ,  dob , email , address , contactnumber , faculty , image} = req.body;
+    try{
+        const updatedUser = await model.findByIdAndUpdate(userid , {firstname , lastname , gender ,  dob , email , address , contactnumber , faculty , image},{new: true});
+        res.status(200).json(updatedUser);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
 
 
-module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser, updateStaffUser , updateUser , getAllStaffUsers,updatepanel,getStaffById};
+
+module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser, updateStaffUser , updateUser , getAllStaffUsers,updatepanel,getStaffById , getStudentById , updateStudent};

@@ -3,10 +3,11 @@ let Request = require("../models/Request");
 
 
 const createRequest = async(req,res)=>{
-    const {StaffId ,topic , discription,technology}= req.body;
+    const {StaffId ,Type ,topic , discription,technology}= req.body;
     const StudentId = req.userId;
+    const  ID = req.Id;
     const newRequest = new Request({
-        StudentId ,StaffId ,topic , discription,technology
+        StudentId ,StaffId , ID , Type ,topic , discription,technology
     });
     try{
         const request = await newRequest.save();

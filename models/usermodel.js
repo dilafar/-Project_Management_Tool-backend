@@ -47,7 +47,19 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
-    status: {
+    SupervisorStatus: {
+        type: String,
+        default: "pending",
+      },
+      SupervisorId: {
+        type: String,
+        default: "pending",
+      },
+      CoSupervisorStatus: {
+        type: String,
+        default: "pending",
+      },
+      CoSupervisorId: {
         type: String,
         default: "pending",
       },

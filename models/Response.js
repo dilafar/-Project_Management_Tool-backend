@@ -12,6 +12,14 @@ const ResponseSchema = new Schema({
         type: String,
         default: "ptrue",
       },
+    ID: {
+        type: String,
+        default: "ptrue",
+    },
+    Type: {
+        type: String,
+        default: "ptrue",
+    },
     status: {
         type : String,
         default: "pending",

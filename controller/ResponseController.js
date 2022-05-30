@@ -1,16 +1,25 @@
 let Response= require("../models/Response");
+let model = require("../models/usermodel");
 
 
 
 const createResponse = async(req,res)=>{
-    const {StaffId , StudentId  ,status, Message}= req.body;
+    const {StaffId , StudentId  , ID , Type , status, Message}= req.body;
     //const StaffId  = req.userId;
     const newResponse = new Response({
-        StaffId,StudentId  ,status, Message
+        StaffId,StudentId  , ID ,Type , status, Message
     });
     try{
-        const response = await newResponse.save();
-        res.status(200).json(response);
+        if(Type === 'Suppervisor'){
+            const updatedUser = await model.findByIdAndUpdate(ID , {SupervisorStatus : "Approved",SupervisorId:StaffId},{new: true});
+            const response = await newResponse.save();
+            res.status(200).json({response , updatedUser});      
+        }else if(Type === 'Co-Supervisor'){
+            const updatedUser = await model.findByIdAndUpdate(ID , {CoSupervisorStatus : "Approved" , CoSupervisorId :StaffId},{new: true});
+            const response = await newResponse.save();
+            res.status(200).json({response , updatedUser}); 
+        }
+       
     }catch(err){
         res.status(409).json(err);
     }

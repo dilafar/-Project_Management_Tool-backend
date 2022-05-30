@@ -12,6 +12,14 @@ const RequestSchema = new Schema({
         type: String,
         default: "ptrue",
       },
+      ID: {
+        type: String,
+        default: "ptrue",
+      },
+      Type: {
+        type: String,
+        default: "ptrue",
+      },
     topic : {
         type : String,
         required : true
