@@ -98,4 +98,4 @@ const getGroupByCoSupervisor = async(req , res) =>{
 
 
 
-module.exports = {getAllProduct , createProduct ,updateProduct ,deleteProduct ,getProductById};
+module.exports = {getAllGroups , createGroup  , updateGroup , getGroupByCoSupervisor , getGroupBySupervisor , getGroupById , deleteGroup};
