@@ -13,10 +13,10 @@ const getAllGroups= async(req , res) =>{
 }
 
 const createGroup = async(req,res)=>{
-    const {leader , student1 , student2 , student3 , Supervisor , CoSupervisor}= req.body;
+    const {leader,leaderid,student1,student1id , student2, student2id , student3, student3id , Supervisor , CoSupervisor}= req.body;
     const userId  = req.Id;
     const newgroup = new group({
-        leader , student1 , student2 , student3 , Supervisor , CoSupervisor, userId 
+        leader,leaderid,student1,student1id , student2, student2id , student3, student3id, Supervisor , CoSupervisor, userId 
     });
     try{
         const group2 = await newgroup.save();
