@@ -63,6 +63,10 @@ const userSchema = new Schema({
         type: String,
         default: "pending",
       },
+      Group: {
+        type: String,
+        default: "pending",
+      },
     createdAt:{
         type: Date,
         default: new Date()

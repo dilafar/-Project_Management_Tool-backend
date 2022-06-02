@@ -1,21 +1,16 @@
 const group = require('../models/studentgroup');
+const model = require('../models/usermodel');
 
-const getAllProduct = async(req,res)=>{
-    const {page} = req.query;
+
+const getAllGroups= async(req , res) =>{
     try{
-        const Limit = 6;
-        const startIndex = (Number(page - 1)) * Limit;
-        const total = await Product.countDocuments({});
-        const product = await Product.find().sort({_id: -1}).limit(Limit).skip(startIndex);
-        res.status(200).json({data: product, currentPage: Number(page), numberOfPages: Math.ceil(total/Limit)});
-        
+            const groups = await group.find();
+
+            res.status(200).json(groups);
     }catch(err){
-        res.status(404).json(err);
-        console.log(err);
+            res.status(404).json({message : err.message});
     }
-    
-   
-};
+}
 
 const createGroup = async(req,res)=>{
     const {leader , student1 , student2 , student3 , Supervisor , CoSupervisor}= req.body;
@@ -25,6 +20,9 @@ const createGroup = async(req,res)=>{
     });
     try{
         const group2 = await newgroup.save();
+        if(group2){
+                await model.findByIdAndUpdate(userId , {Group : "created"} , {new: true});
+        }
         res.status(201).json(group2);
     }catch(err){
         res.status(409).json(err);
@@ -71,6 +69,29 @@ const getGroupById = async(req , res) =>{
             res.status(404).json({message : err.message});
     }
 }
+
+const getGroupBySupervisor = async(req , res) =>{
+    try{
+            const Id  = req.Id;
+            const groups = await group.find({Supervisor : Id });
+
+            res.status(200).json(groups);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+const getGroupByCoSupervisor = async(req , res) =>{
+    try{
+            const Id  = req.Id;
+            const groups = await group.find({CoSupervisor : Id });
+
+            res.status(200).json(groups);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
 
 
 
