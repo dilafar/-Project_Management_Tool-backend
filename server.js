@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyparser.json());
-app.use(bodyparser.json({limit:"400mb", extended: true}));
+app.use(bodyparser.json({limit:"700mb", extended: true}));
 app.use(bodyparser.urlencoded({limit:"400mb",extended: true}));
 
 const url = process.env.MONGO_URL;
