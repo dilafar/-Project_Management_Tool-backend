@@ -1,4 +1,4 @@
-const Product = require('../models/product');
+const group = require('../models/studentgroup');
 
 const getAllProduct = async(req,res)=>{
     const {page} = req.query;
@@ -18,14 +18,14 @@ const getAllProduct = async(req,res)=>{
 };
 
 const createGroup = async(req,res)=>{
-    const {title ,desc, img,categories, price}= req.body;
-    const userId = req.userId;
-    const newProduct = new Product({
-        userId, title ,desc, img,categories, price
+    const {leader , student1 , student2 , student3 , Supervisor , CoSupervisor}= req.body;
+    const userId  = req.Id;
+    const newgroup = new group({
+        leader , student1 , student2 , student3 , Supervisor , CoSupervisor, userId 
     });
     try{
-        const product = await newProduct.save();
-        res.status(201).json(product);
+        const group2 = await newgroup.save();
+        res.status(201).json(group2);
     }catch(err){
         res.status(409).json(err);
     }
@@ -64,9 +64,9 @@ const deleteGroup = async(req,res)=>{
 const getGroupById = async(req , res) =>{
     try{
             const Id  = req.Id;
-            const request = await group.find({userId : Id });
+            const groups = await group.find({userId : Id });
 
-            res.status(200).json(request);
+            res.status(200).json(groups);
     }catch(err){
             res.status(404).json({message : err.message});
     }
