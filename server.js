@@ -19,11 +19,13 @@ const userroutes = require("./routes/user");
 const panelDataroutes = require("./routes/panelData");
 const requestroutes = require("./routes/request");
 const responseroutes = require("./routes/response");
+const grouprouter = require("./routes/studentGroup");
 
 app.use("/user", userroutes);
 app.use("/panel", panelDataroutes);
 app.use("/request", requestroutes);
 app.use("/response", responseroutes);
+app.use("/group", grouprouter);
 
 mongoose.connect(url ,  {
     useNewUrlParser: true,
