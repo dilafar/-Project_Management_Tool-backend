@@ -34,9 +34,9 @@ const createGroup = async(req,res)=>{
 
 const updateGroup =  async(req,res)=>{
         const  userid = req.params.id;
-        const{ leader , student1 , student2 , student3 , Supervisor , CoSupervisor}= req.body;
+        const{Date,startTime,endTime,panel}= req.body;
         const updateGroup = {
-            leader , student1 , student2 , student3 , Supervisor , CoSupervisor
+            Date,startTime,endTime,panel
         }
         await group.findByIdAndUpdate(userid,updateGroup).then(()=>{
             res.status(200).json(updateGroup);
@@ -46,6 +46,7 @@ const updateGroup =  async(req,res)=>{
         })
 
 };
+
 
 const deleteGroup = async(req,res)=>{
 

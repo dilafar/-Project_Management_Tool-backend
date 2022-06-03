@@ -49,6 +49,25 @@ const studentgroupSchema = new Schema({
         type: String,
         default: "pending",
       },
+      Date: {
+        type: String,
+        default: "pending",
+      },
+     
+      startTime: {
+        type: String,
+        default: "pending",
+      },
+
+      endTime: {
+        type: String,
+        default: "pending",
+      },
+
+      panel: {
+        type: String,
+        default: "pending",
+      },
     createdAt:{
         type: Date,
         default: new Date()
