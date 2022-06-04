@@ -2,6 +2,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 let model = require("../models/usermodel");
 let staffmodel = require("../models/staffmodel");
+const {transporter} = require("../api/userMail");
+
+let mailOptions = {
+    from: 'farmertest98@gmail.com',
+    to: '',
+    subject: '',
+    text: ''
+};
 
 const signin = async(req,res)=>{
     const {email , password} = req.body;
@@ -32,7 +40,7 @@ const signin = async(req,res)=>{
                 }else{
                     const token = jwt.sign({email:user2.email , id : user2._id}, 'test' ,{expiresIn:"1h"});
     
-                    res.status(200).json({result:user2 , token});
+                    return res.status(200).json({result:user2 , token,Date:new Date(),time: new Date().getTime});
                 }
                    
                 
@@ -55,7 +63,7 @@ const signin = async(req,res)=>{
         
             const token = jwt.sign({email:existingUser.email , id : existingUser._id}, 'test' ,{expiresIn:"1h"});
     
-             res.status(200).json({result:existingUser , token});
+            return res.status(200).json({result:existingUser , token, time:new Date().toLocaleTimeString(), date: new Date().toLocaleDateString()});
       
        
     
@@ -112,5 +120,213 @@ const staffsignup = async(req,res)=>{
         res.status(500).json({message: 'something went wrong.'});
     }
 }
+const getAllStaff = async(req,res)=>{
+    const {page} = req.query;
+    try{
+        const Limit = 6;
+        const startIndex = (Number(page - 1)) * Limit;
+        const total = await staffmodel.countDocuments({});
+        const staff = await staffmodel.find().sort({_id: -1}).limit(Limit).skip(startIndex);
+        res.status(200).json({data: staff, currentPage: Number(page), numberOfPages: Math.ceil(total/Limit)});
+        
+    }catch(err){
+        res.status(404).json(err);
+        console.log(err);
+    }
+    
+   
+};
 
-module.exports = {signin , signup ,staffsignup};
+const getAllUser = async(req,res)=>{
+    const {page} = req.query;
+    try{
+        const Limit = 6;
+        const startIndex = (Number(page - 1)) * Limit;
+        const total = await model.countDocuments({});
+        const  user = await model.find().sort({_id: -1}).limit(Limit).skip(startIndex);
+        res.status(200).json({data: user, currentPage: Number(page), numberOfPages: Math.ceil(total/Limit)});
+        
+    }catch(err){
+        res.status(404).json(err);
+        console.log(err);
+    }
+    
+   
+};
+
+const getAllStaffUsers = async(req , res) =>{
+    try{
+            const users = await staffmodel.find();
+
+            res.status(200).json(users);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+/*
+const getAllUsers = async(req , res) =>{
+    try{
+            const users = await model.find();
+
+            res.status(200).json(users);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}*/
+
+const updateStaffUser = async(req , res) =>{
+    const userid = req.params.id;
+    const {status} = req.body;
+    try{
+        const updatedUser = await staffmodel.findByIdAndUpdate(userid , {status},{new: true});
+
+        if(updatedUser.status === 'Rejected'){
+            mailOptions.to = updatedUser.email;
+            mailOptions.subject = 'Youre Request Rejected';
+            mailOptions.text = 'you cannot Access Staff related Pages';
+            transporter.sendMail(mailOptions , (error , info)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log('Email sent: '+ info.response);
+                }
+            });
+
+        }
+
+        if(updatedUser.status === 'Approved'){
+            mailOptions.to = updatedUser.email;
+            mailOptions.subject = 'Youre Request Approved';
+            mailOptions.text = 'you can Access Staff related Pages';
+            transporter.sendMail(mailOptions , (error , info)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log('Email sent: '+ info.response);
+                }
+            });
+        }
+
+        
+
+
+        res.status(200).json(updatedUser);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+const updateUser = async(req , res) =>{
+    const userid = req.params.id;
+    const {status} = req.body;
+    try{
+        const updatedUser = await model.findByIdAndUpdate(userid , {status},{new: true});
+
+        if(updatedUser.status === 'Rejected'){
+            mailOptions.to = updatedUser.email;
+            mailOptions.subject = 'Youre Request Rejected';
+            mailOptions.text = 'you cannot Access Student related Pages';
+            transporter.sendMail(mailOptions , (error , info)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log('Email sent: '+ info.response);
+                }
+            });
+
+        }
+
+        if(updatedUser.status === 'Approved'){
+            mailOptions.to = updatedUser.email;
+            mailOptions.subject = 'Youre Request Approved';
+            mailOptions.text = 'you can Access Student related Pages';
+            transporter.sendMail(mailOptions , (error , info)=>{
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log('Email sent: '+ info.response);
+                }
+            });
+        }
+
+        
+
+
+        res.status(200).json(updatedUser);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+
+const deleteStaffUser = async(req,res)=>{
+    const id = req.params.id;
+    try{
+            await staffmodel.findByIdAndDelete(id);
+            res.status(200).json({msg : "deleted successfull"});
+    }catch(err){
+            res.status(400).json({message : err.message});
+    }
+}
+const deleteUser = async(req,res)=>{
+    const id = req.params.id;
+    try{
+            await model.findByIdAndDelete(id);
+            res.status(200).json({msg : "deleted successfull"});
+    }catch(err){
+            res.status(400).json({message : err.message});
+    }
+}
+
+
+
+const updatepanel = async(req , res) =>{
+    const userid = req.params.id;
+    const {panel} = req.body;
+    try{
+        const updatedUser = await staffmodel.findByIdAndUpdate(userid , {panel},{new: true});
+        res.status(200).json(updatedUser);
+
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+const getStaffById = async (req, res) => { 
+    const { id } = req.params;
+
+    try {
+        const staff = await staffmodel.findById(id);
+        
+        res.status(200).json(staff);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+const getStudentById = async (req, res) => { 
+    const { id } = req.params;
+
+    try {
+        const student = await model.findById(id);
+        
+        res.status(200).json(student);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+const updateStudent = async(req , res) =>{
+    const userid = req.params.id;
+    const { firstname , lastname , gender ,  dob , email , address , contactnumber , faculty , image} = req.body;
+    try{
+        const updatedUser = await model.findByIdAndUpdate(userid , {firstname , lastname , gender ,  dob , email , address , contactnumber , faculty , image},{new: true});
+        res.status(200).json(updatedUser);
+    }catch(err){
+            res.status(404).json({message : err.message});
+    }
+}
+
+
+
+module.exports = {signin , signup ,staffsignup , getAllStaff , getAllUser , deleteStaffUser , deleteUser, updateStaffUser , updateUser , getAllStaffUsers,updatepanel,getStaffById , getStudentById , updateStudent};

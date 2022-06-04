@@ -63,11 +63,24 @@ const staffSchema = new Schema({
         type : String,
         required : true
     },
+    status: {
+        type: String,
+        default: "pending",
+      },
+      panel: {
+        type : String,
+        default: "Assign a Panel",
+    },
     createdAt:{
         type: Date,
         default: new Date()
     }
-})
+}
+,
+{
+    timestamps: true,
+}
+)
 
 const staffmodel = mongoose.model("Staff",staffSchema);
 module.exports = staffmodel;

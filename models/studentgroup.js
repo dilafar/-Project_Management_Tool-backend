@@ -2,72 +2,69 @@ const { default: mongoose } = require("mongoose");
 
 const Schema = require("mongoose").Schema;
 
-const userSchema = new Schema({
-    firstname : {
+const studentgroupSchema = new Schema({
+   
+    leader : {
         type : String,
         required : true
     },
-    lastname : {
+    leaderid : {
         type : String,
         required : true
     },
-    gender : {
+    student1 : {
         type : String,
         required : true
     },
-    dob : {
+    student1id : {
         type : String,
         required : true
     },
-    email:{
+    student2:{
         type : String,
         required : true
     },
-    password : {
+    student2id:{
         type : String,
         required : true
     },
-    address : {
+    student3 : {
         type : String,
         required : true
     },
-    contactnumber : {
+    student3id : {
         type : String,
         required : true
     },
-    studentID : {
-        type : String,
-        required : true
-    },
-    faculty : {
-        type : String,
-        required : true
-    },
-    image : {
-        type : String,
-        required : true
-    },
-    SupervisorStatus: {
+    Supervisor: {
         type: String,
         default: "pending",
       },
-      SupervisorId: {
+     
+    CoSupervisor: {
         type: String,
         default: "pending",
       },
-      CoSupervisorStatus: {
+    userId: {
         type: String,
         default: "pending",
       },
-      CoSupervisorId: {
+      Date: {
         type: String,
         default: "pending",
       },
-      Group: {
+     
+      startTime: {
         type: String,
         default: "pending",
       },
-      status: {
+
+      endTime: {
+        type: String,
+        default: "pending",
+      },
+
+      panel: {
         type: String,
         default: "pending",
       },
@@ -83,5 +80,5 @@ const userSchema = new Schema({
 
 )
 
-const model = mongoose.model("User",userSchema);
-module.exports = model;
+const group = mongoose.model("StudentGroup", studentgroupSchema);
+module.exports = group;
