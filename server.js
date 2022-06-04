@@ -16,7 +16,11 @@ app.use(bodyparser.urlencoded({limit:"400mb",extended: true}));
 const url = process.env.MONGO_URL;
 
 const userroutes = require("./routes/user");
+const adminSubmissionRoutes=require("./routes/adminsubmission");
+const studentSubmissionRoutes=require("./routes/studentsubmission")
 app.use("/user",userroutes);
+app.use("/adminsubmission",adminSubmissionRoutes);
+app.use("/studentsubmission",studentSubmissionRoutes)
 
 mongoose.connect(url ,  {
     useNewUrlParser: true,
