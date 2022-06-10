@@ -28,6 +28,7 @@ const panelDataroutes = require("./routes/panelData");
 const requestroutes = require("./routes/request");
 const responseroutes = require("./routes/response");
 const grouprouter = require("./routes/studentGroup");
+const msSubmission_route = require("./routes/msSubmission_route");
 const chatroute = require('./routes/chat');
 
 app.use("/user", userroutes);
@@ -35,6 +36,7 @@ app.use("/panel", panelDataroutes);
 app.use("/request", requestroutes);
 app.use("/response", responseroutes);
 app.use("/group", grouprouter);
+app.use("/msSubmission", msSubmission_route);
 
 
 
