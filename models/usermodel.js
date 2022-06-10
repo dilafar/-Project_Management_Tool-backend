@@ -67,6 +67,10 @@ const userSchema = new Schema({
         type: String,
         default: "pending",
       },
+      status: {
+        type: String,
+        default: "pending",
+      },
     createdAt:{
         type: Date,
         default: new Date()

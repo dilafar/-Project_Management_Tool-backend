@@ -13,10 +13,10 @@ const getAllGroups= async(req , res) =>{
 }
 
 const createGroup = async(req,res)=>{
-    const {leader , student1 , student2 , student3 , Supervisor , CoSupervisor}= req.body;
+    const {leader,leaderid,student1,student1id , student2, student2id , student3, student3id , Supervisor , CoSupervisor}= req.body;
     const userId  = req.Id;
     const newgroup = new group({
-        leader , student1 , student2 , student3 , Supervisor , CoSupervisor, userId 
+        leader,leaderid,student1,student1id , student2, student2id , student3, student3id, Supervisor , CoSupervisor, userId 
     });
     try{
         const group2 = await newgroup.save();
@@ -34,9 +34,9 @@ const createGroup = async(req,res)=>{
 
 const updateGroup =  async(req,res)=>{
         const  userid = req.params.id;
-        const{ leader , student1 , student2 , student3 , Supervisor , CoSupervisor}= req.body;
+        const{Date,startTime,endTime,panel}= req.body;
         const updateGroup = {
-            leader , student1 , student2 , student3 , Supervisor , CoSupervisor
+            Date,startTime,endTime,panel
         }
         await group.findByIdAndUpdate(userid,updateGroup).then(()=>{
             res.status(200).json(updateGroup);
@@ -46,6 +46,7 @@ const updateGroup =  async(req,res)=>{
         })
 
 };
+
 
 const deleteGroup = async(req,res)=>{
 

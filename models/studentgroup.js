@@ -8,7 +8,15 @@ const studentgroupSchema = new Schema({
         type : String,
         required : true
     },
+    leaderid : {
+        type : String,
+        required : true
+    },
     student1 : {
+        type : String,
+        required : true
+    },
+    student1id : {
         type : String,
         required : true
     },
@@ -16,7 +24,15 @@ const studentgroupSchema = new Schema({
         type : String,
         required : true
     },
+    student2id:{
+        type : String,
+        required : true
+    },
     student3 : {
+        type : String,
+        required : true
+    },
+    student3id : {
         type : String,
         required : true
     },
@@ -30,6 +46,25 @@ const studentgroupSchema = new Schema({
         default: "pending",
       },
     userId: {
+        type: String,
+        default: "pending",
+      },
+      Date: {
+        type: String,
+        default: "pending",
+      },
+     
+      startTime: {
+        type: String,
+        default: "pending",
+      },
+
+      endTime: {
+        type: String,
+        default: "pending",
+      },
+
+      panel: {
         type: String,
         default: "pending",
       },
